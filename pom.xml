@@ -77,13 +77,6 @@
             <scope>compile</scope>
         </dependency>
 
-        <!--    Devtools    -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
     </dependencies>
 
     <build>

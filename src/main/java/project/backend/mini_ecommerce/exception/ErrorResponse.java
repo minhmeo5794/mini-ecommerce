@@ -1,6 +1,7 @@
 package project.backend.mini_ecommerce.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
+@Builder
 @RequiredArgsConstructor
 public class ErrorResponse {
     private final Instant timestamp;
