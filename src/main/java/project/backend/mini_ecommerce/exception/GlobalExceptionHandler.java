@@ -1,13 +1,14 @@
 package project.backend.mini_ecommerce.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import project.backend.mini_ecommerce.exception.custom.DuplicateResourceException;
 import project.backend.mini_ecommerce.exception.custom.PasswordMismatchException;
+import project.backend.mini_ecommerce.exception.custom.ResourceNotFoundException;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -33,12 +34,21 @@ public class GlobalExceptionHandler {
                 .message(message)
                 .errors(errors)
                 .build();
-        return new ResponseEntity<>(errorResponse, status);
+        return ResponseEntity.status(status).body(errorResponse);
     }
 
     @ExceptionHandler(PasswordMismatchException.class)
     public ResponseEntity<ErrorResponse> handlePasswordMismatchException(PasswordMismatchException ex, HttpServletRequest request) {
+        return buildErrorResponse(
+                HttpStatus.BAD_REQUEST,
+                request.getRequestURI(),
+                ex.getMessage(),
+                null
+        );
+    }
 
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateResourceException(DuplicateResourceException ex, HttpServletRequest request) {
         return buildErrorResponse(
                 HttpStatus.BAD_REQUEST,
                 request.getRequestURI(),
@@ -58,29 +68,31 @@ public class GlobalExceptionHandler {
             errors.computeIfAbsent(field, f -> new ArrayList<>()).add(message);
         });
 
-        ErrorResponse errorResponse = new ErrorResponse(
-                Instant.now(),
-                HttpStatus.BAD_REQUEST.value(),
-                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+        return buildErrorResponse(
+                HttpStatus.BAD_REQUEST,
                 request.getRequestURI(),
                 "Validation failed",
                 errors
         );
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex, HttpServletRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(
-                Instant.now(),
-                HttpStatus.BAD_REQUEST.value(),
-                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(ResourceNotFoundException ex, HttpServletRequest request) {
+        return buildErrorResponse(
+                HttpStatus.NOT_FOUND,
+                request.getRequestURI(),
+                "Resource not found!",
+                null
+        );
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(Exception ex, HttpServletRequest request) {
+        return buildErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR,
                 request.getRequestURI(),
                 "Something went wrong",
                 null
         );
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
