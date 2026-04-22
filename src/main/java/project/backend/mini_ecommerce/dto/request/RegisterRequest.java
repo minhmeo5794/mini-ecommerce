@@ -1,12 +1,11 @@
 package project.backend.mini_ecommerce.dto.request;
 
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RegisterRequest {
     @Email(message = "Email is not valid")
     @NotBlank(message = "Email can not be blank")

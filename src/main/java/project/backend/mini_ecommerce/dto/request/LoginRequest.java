@@ -1,0 +1,18 @@
+package project.backend.mini_ecommerce.dto.request;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
+public class LoginRequest {
+    @Email(message = "Email is not valid")
+    @NotBlank(message = "Email can not be blank")
+    private final String email;
+
+    @NotBlank(message = "Password can not be blank")
+    private final String password;
+}

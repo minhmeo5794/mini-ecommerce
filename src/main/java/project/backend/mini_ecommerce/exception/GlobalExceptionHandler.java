@@ -7,7 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import project.backend.mini_ecommerce.exception.custom.DuplicateResourceException;
+import project.backend.mini_ecommerce.exception.custom.EmailAlreadyExistsException;
+import project.backend.mini_ecommerce.exception.custom.EmailDoesNotExistException;
 import project.backend.mini_ecommerce.exception.custom.PasswordMismatchException;
 import project.backend.mini_ecommerce.exception.custom.ResourceNotFoundException;
 
@@ -39,18 +40,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(errorResponse);
     }
 
-    @ExceptionHandler(PasswordMismatchException.class)
-    public ResponseEntity<ErrorResponse> handlePasswordMismatchException(PasswordMismatchException ex, HttpServletRequest request) {
-        return buildErrorResponse(
-                HttpStatus.BAD_REQUEST,
-                request.getRequestURI(),
-                ex.getMessage(),
-                null
-        );
-    }
-
-    @ExceptionHandler(DuplicateResourceException.class)
-    public ResponseEntity<ErrorResponse> handleDuplicateResourceException(DuplicateResourceException ex, HttpServletRequest request) {
+    @ExceptionHandler({EmailAlreadyExistsException.class, EmailDoesNotExistException.class, PasswordMismatchException.class})
+    public ResponseEntity<ErrorResponse> handleBadRequestException(Exception ex, HttpServletRequest request) {
         return buildErrorResponse(
                 HttpStatus.BAD_REQUEST,
                 request.getRequestURI(),
