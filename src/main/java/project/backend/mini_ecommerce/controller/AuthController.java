@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import project.backend.mini_ecommerce.dto.request.RegisterRequest;
+import project.backend.mini_ecommerce.dto.response.RegisterResponse;
 import project.backend.mini_ecommerce.service.AuthService;
 
 @RequiredArgsConstructor
@@ -13,10 +14,14 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public String register(@RequestBody @Valid RegisterRequest request) {
-        authService.request(request);
+    public RegisterResponse register(@RequestBody @Valid RegisterRequest request) {
 
-        return "hello";
+        return authService.request(request);
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "hello test";
     }
 
 }
