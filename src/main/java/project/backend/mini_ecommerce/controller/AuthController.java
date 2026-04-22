@@ -23,5 +23,4 @@ public class AuthController {
     public String test() {
         return "hello test";
     }
-
 }

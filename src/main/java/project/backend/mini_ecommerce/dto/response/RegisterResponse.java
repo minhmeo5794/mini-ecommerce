@@ -4,11 +4,13 @@ import lombok.Builder;
 import lombok.Getter;
 import project.backend.mini_ecommerce.enums.Role;
 
+import java.time.Instant;
+
 @Builder
 @Getter
 public class RegisterResponse {
-    private Long id;
-    private String email;
-    private String fullName;
-    private Role role;
+    private final Long id;
+    private final String email;
+    private final String fullName;
+    private final Instant createdAt;
 }

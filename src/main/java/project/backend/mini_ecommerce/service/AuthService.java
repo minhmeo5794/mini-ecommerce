@@ -1,8 +1,10 @@
 package project.backend.mini_ecommerce.service;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.backend.mini_ecommerce.dto.request.RegisterRequest;
 import project.backend.mini_ecommerce.dto.response.RegisterResponse;
 import project.backend.mini_ecommerce.exception.custom.DuplicateResourceException;
@@ -41,12 +43,11 @@ public class AuthService {
         // Save to database
         User savedUser = userRepository.save(user);
 
-        // return RegisterResponse
         return RegisterResponse.builder()
                 .id(savedUser.getId())
                 .email(savedUser.getEmail())
                 .fullName(savedUser.getFullName())
-                .role(savedUser.getRole())
+                .createdAt(savedUser.getCreatedAt())
                 .build();
     }
 }

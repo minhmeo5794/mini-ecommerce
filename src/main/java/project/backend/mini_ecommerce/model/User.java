@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import project.backend.mini_ecommerce.enums.Role;
 
 import java.time.Instant;
@@ -32,9 +34,11 @@ public class User {
     @Column(nullable = false)
     private Role role = Role.USER;
 
-    @Column(insertable = false, updatable = false)
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private Instant createdAt;
 
-    @Column(insertable = false, updatable = false)
+    @UpdateTimestamp
+    @Column(nullable = false)
     private Instant updatedAt;
 }
