@@ -10,6 +10,7 @@ import project.backend.mini_ecommerce.dto.response.RegisterResponse;
 import project.backend.mini_ecommerce.exception.custom.EmailAlreadyExistsException;
 import project.backend.mini_ecommerce.exception.custom.EmailDoesNotExistException;
 import project.backend.mini_ecommerce.exception.custom.PasswordMismatchException;
+import project.backend.mini_ecommerce.mapper.AuthMapper;
 import project.backend.mini_ecommerce.model.User;
 import project.backend.mini_ecommerce.repository.UserRepository;
 
@@ -44,12 +45,7 @@ public class AuthService {
         // Save to database
         User savedUser = userRepository.save(user);
 
-        return RegisterResponse.builder()
-                .id(savedUser.getId())
-                .email(savedUser.getEmail())
-                .fullName(savedUser.getFullName())
-                .createdAt(savedUser.getCreatedAt())
-                .build();
+        return AuthMapper.toRegisterResponse(savedUser);
     }
 
     public LoginResponse login(LoginRequest request) {
@@ -62,11 +58,6 @@ public class AuthService {
             throw new PasswordMismatchException("Invalid email or password");
         }
 
-        return LoginResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .fullName(user.getFullName())
-                .role(user.getRole())
-                .build();
+        return AuthMapper.toLoginResponse(user);
     }
 }
