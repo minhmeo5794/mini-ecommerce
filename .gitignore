@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Temporary
+README.md
+README2.md
+
 ### Secrets ###
 .env
 application.properties
