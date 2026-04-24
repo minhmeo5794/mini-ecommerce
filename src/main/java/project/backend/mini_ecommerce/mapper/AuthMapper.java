@@ -14,12 +14,19 @@ public class AuthMapper {
                 .build();
     }
 
-    public static LoginResponse toLoginResponse(User user) {
+    public static LoginResponse toLoginResponse(User user, String token, long accessTokenExpiresIn) {
         return LoginResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .fullName(user.getFullName())
-                .role(user.getRole())
+                .userInfo(LoginResponse.UserInfo.builder()
+                        .id(user.getId())
+                        .email(user.getEmail())
+                        .fullName(user.getFullName())
+                        .role(user.getRole())
+                        .build())
+                .tokenInfo(LoginResponse.TokenInfo.builder()
+                        .token(token)
+                        .tokenType("Bearer")
+                        .expiresIn(accessTokenExpiresIn)
+                        .build())
                 .build();
     }
 }

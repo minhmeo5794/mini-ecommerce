@@ -1,6 +1,12 @@
 package project.backend.mini_ecommerce.service;
 
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.FilterChain;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.backend.mini_ecommerce.dto.request.LoginRequest;
@@ -13,12 +19,19 @@ import project.backend.mini_ecommerce.exception.custom.PasswordMismatchException
 import project.backend.mini_ecommerce.mapper.AuthMapper;
 import project.backend.mini_ecommerce.model.User;
 import project.backend.mini_ecommerce.repository.UserRepository;
+import project.backend.mini_ecommerce.security.CustomUserDetails;
+import project.backend.mini_ecommerce.security.JwtService;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
 public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     public RegisterResponse request(RegisterRequest request) {
         // Check existedEmail
@@ -58,6 +71,15 @@ public class AuthService {
             throw new PasswordMismatchException("Invalid email or password");
         }
 
-        return AuthMapper.toLoginResponse(user);
+        // Generate JWT token
+        CustomUserDetails customUserDetails = new CustomUserDetails(user);
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("id", user.getId());
+        extraClaims.put("role", user.getRole().name());
+
+        String token = jwtService.generateToken(extraClaims, customUserDetails);
+        long expiration = jwtService.getJwtExpiration();
+
+        return AuthMapper.toLoginResponse(user, token, expiration);
     }
 }

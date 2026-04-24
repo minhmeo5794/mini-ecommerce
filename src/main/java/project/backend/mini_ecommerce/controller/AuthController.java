@@ -11,7 +11,7 @@ import project.backend.mini_ecommerce.service.AuthService;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
     private final AuthService authService;
 
@@ -23,10 +23,5 @@ public class AuthController {
     @PostMapping("/login")
     public LoginResponse login(@RequestBody @Valid LoginRequest request) {
         return authService.login(request);
-    }
-
-    @GetMapping("/test")
-    public String test() {
-        return "hello test";
     }
 }
