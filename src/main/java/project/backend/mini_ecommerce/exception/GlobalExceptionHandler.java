@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
             HttpStatus status,
             String path,
             String message,
-            Map<String, List<String>> errors
+            Map<String, String> errors
     ) {
 
         ErrorResponse errorResponse = ErrorResponse.builder()
@@ -52,13 +52,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
-        Map<String, List<String>> errors = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
 
         ex.getBindingResult().getFieldErrors().forEach(error -> {
             String field = error.getField();
             String message = error.getDefaultMessage();
 
-            errors.computeIfAbsent(field, f -> new ArrayList<>()).add(message);
+//            errors.computeIfAbsent(field, f -> new ArrayList<>()).add(message);
+            errors.putIfAbsent(field, message);
         });
 
         return buildErrorResponse(

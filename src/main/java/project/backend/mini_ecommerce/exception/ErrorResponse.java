@@ -20,5 +20,5 @@ public class ErrorResponse {
     private final String message;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private final Map<String, List<String>> errors;
+    private final Map<String, String> errors;
 }
