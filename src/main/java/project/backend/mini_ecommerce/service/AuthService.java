@@ -1,12 +1,6 @@
 package project.backend.mini_ecommerce.service;
 
-import io.jsonwebtoken.Claims;
-import jakarta.servlet.FilterChain;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.backend.mini_ecommerce.dto.request.LoginRequest;
@@ -22,7 +16,6 @@ import project.backend.mini_ecommerce.repository.UserRepository;
 import project.backend.mini_ecommerce.security.CustomUserDetails;
 import project.backend.mini_ecommerce.security.JwtService;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,7 +51,7 @@ public class AuthService {
         // Save to database
         User savedUser = userRepository.save(user);
 
-        return AuthMapper.toRegisterResponse(savedUser);
+        return AuthMapper.mapToRegisterResponse(savedUser);
     }
 
     public LoginResponse login(LoginRequest request) {
@@ -80,6 +73,6 @@ public class AuthService {
         String token = jwtService.generateToken(extraClaims, customUserDetails);
         long expiration = jwtService.getJwtExpiration();
 
-        return AuthMapper.toLoginResponse(user, token, expiration);
+        return AuthMapper.mapToLoginResponse(user, token, expiration);
     }
 }
