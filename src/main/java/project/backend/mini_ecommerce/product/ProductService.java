@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import project.backend.mini_ecommerce.common.response.PageResponse;
 import project.backend.mini_ecommerce.product.dto.ProductResponse;
 
 import java.math.BigDecimal;
@@ -14,16 +15,16 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
-    public Page<ProductResponse> getAllProducts(BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
+    public PageResponse<ProductResponse> getAllProducts(BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
+        Page<ProductResponse> products = productRepository.findAll(pageable).map(productMapper::mapToProductResponse);
 
-        Page<Product> products;
-        if (minPrice == null || maxPrice == null) {
-            products = productRepository.findAll(pageable);
-        } else {
-            products = productRepository.findByPriceBetween(minPrice, maxPrice, pageable);
-        }
+//        Page<Product> products;
+//        if (minPrice == null || maxPrice == null) {
+//            products = productRepository.findAll(pageable);
+//        } else {
+//            products = productRepository.findByPriceBetween(minPrice, maxPrice, pageable);
+//        }
 
-//        return products.map(product -> productMapper.mapToProductResponse(product)); ?? Function
-        return products.map(productMapper::mapToProductResponse);
+        return PageResponse.from(products);
     }
 }
