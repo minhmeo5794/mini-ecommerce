@@ -3,7 +3,7 @@ package project.backend.mini_ecommerce.auth.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import project.backend.mini_ecommerce.common.enums.Role;
+import project.backend.mini_ecommerce.common.enums.UserRole;
 
 @Builder
 @Getter
@@ -18,7 +18,7 @@ public class LoginResponse {
         private final Long id;
         private final String email;
         private final String fullName;
-        private final Role role;
+        private final UserRole userRole;
     }
 
     @Builder

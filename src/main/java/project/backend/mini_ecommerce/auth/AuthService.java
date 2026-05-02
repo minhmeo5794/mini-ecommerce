@@ -67,7 +67,7 @@ public class AuthService {
         CustomUserDetails customUserDetails = new CustomUserDetails(user);
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("id", user.getId());
-        extraClaims.put("role", user.getRole().name());
+        extraClaims.put("role", user.getUserRole().name());
 
         String token = jwtService.generateToken(extraClaims, customUserDetails);
         long expiration = jwtService.getJwtExpiration();

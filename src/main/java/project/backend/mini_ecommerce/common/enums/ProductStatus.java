@@ -1,5 +1,5 @@
 package project.backend.mini_ecommerce.common.enums;
 
-public enum Status {
+public enum ProductStatus {
     ACTIVE, INACTIVE, OUT_OF_STOCK
 }

@@ -1,5 +1,5 @@
 package project.backend.mini_ecommerce.common.enums;
 
-public enum Role {
+public enum UserRole {
     ADMIN, USER
 }

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import project.backend.mini_ecommerce.common.enums.Status;
+import project.backend.mini_ecommerce.common.enums.ProductStatus;
 import project.backend.mini_ecommerce.category.Category;
 
 import java.math.BigDecimal;
@@ -36,7 +36,7 @@ public class Product {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status = Status.ACTIVE;
+    private ProductStatus productStatus = ProductStatus.ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)

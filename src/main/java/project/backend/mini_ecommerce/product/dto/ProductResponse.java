@@ -3,7 +3,7 @@ package project.backend.mini_ecommerce.product.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import project.backend.mini_ecommerce.common.enums.Status;
+import project.backend.mini_ecommerce.common.enums.ProductStatus;
 
 import java.math.BigDecimal;
 
@@ -15,7 +15,7 @@ public class ProductResponse {
     private final String description;
     private final BigDecimal price;
     private final Integer stockQuantity;
-    private final Status status;
+    private final ProductStatus productStatus;
     private final CategoryInfo categoryInfo;
 
     @RequiredArgsConstructor

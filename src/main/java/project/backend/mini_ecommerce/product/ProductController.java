@@ -19,7 +19,7 @@ public class ProductController {
 
     @GetMapping
     public PageResponse<ProductResponse> getAllProducts(
-//            @RequestParam(required = true) String category,
+            @RequestParam(required = false) String category,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
             Pageable pageable

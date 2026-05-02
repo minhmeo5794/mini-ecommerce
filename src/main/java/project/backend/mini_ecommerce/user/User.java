@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import project.backend.mini_ecommerce.common.enums.Role;
+import project.backend.mini_ecommerce.common.enums.UserRole;
 
 import java.time.Instant;
 
@@ -33,7 +33,7 @@ public class User {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role = Role.USER;
+    private UserRole userRole = UserRole.USER;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

@@ -18,6 +18,7 @@ public class ProductService {
     public PageResponse<ProductResponse> getAllProducts(BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable) {
         Page<ProductResponse> products = productRepository.findAll(pageable).map(productMapper::mapToProductResponse);
 
+
 //        Page<Product> products;
 //        if (minPrice == null || maxPrice == null) {
 //            products = productRepository.findAll(pageable);
