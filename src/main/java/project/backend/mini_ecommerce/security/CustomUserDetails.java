@@ -1,12 +1,10 @@
 package project.backend.mini_ecommerce.security;
 
-import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import project.backend.mini_ecommerce.model.User;
+import project.backend.mini_ecommerce.user.User;
 
 import java.util.Collection;
 import java.util.List;
