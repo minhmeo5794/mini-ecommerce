@@ -33,7 +33,7 @@ public class User {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserRole userRole = UserRole.USER;
+    private UserRole role = UserRole.USER;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

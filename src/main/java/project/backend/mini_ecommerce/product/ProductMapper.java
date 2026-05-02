@@ -14,7 +14,7 @@ public class ProductMapper {
                 .description(product.getDescription())
                 .price(product.getPrice())
                 .stockQuantity(product.getStockQuantity())
-                .productStatus(product.getProductStatus())
+                .productStatus(product.getStatus())
                 .categoryInfo(ProductResponse.CategoryInfo.builder()
                         .id(product.getCategory().getId())
                         .name(product.getCategory().getName())

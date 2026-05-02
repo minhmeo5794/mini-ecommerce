@@ -36,7 +36,7 @@ public class Product {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ProductStatus productStatus = ProductStatus.ACTIVE;
+    private ProductStatus status = ProductStatus.ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
