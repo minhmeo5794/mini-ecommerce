@@ -11,6 +11,7 @@ import project.backend.mini_ecommerce.common.exception.custom.EmailAlreadyExists
 import project.backend.mini_ecommerce.common.exception.custom.EmailDoesNotExistException;
 import project.backend.mini_ecommerce.common.exception.custom.PasswordMismatchException;
 import project.backend.mini_ecommerce.common.exception.custom.ResourceNotFoundException;
+import project.backend.mini_ecommerce.common.response.ErrorResponse;
 
 import java.time.Instant;
 import java.util.HashMap;

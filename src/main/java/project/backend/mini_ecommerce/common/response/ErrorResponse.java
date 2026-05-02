@@ -1,4 +1,4 @@
-package project.backend.mini_ecommerce.common.exception;
+package project.backend.mini_ecommerce.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
