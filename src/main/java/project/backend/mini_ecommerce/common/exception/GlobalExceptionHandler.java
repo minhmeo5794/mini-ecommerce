@@ -56,7 +56,6 @@ public class GlobalExceptionHandler {
             String field = error.getField();
             String message = error.getDefaultMessage();
 
-//            errors.computeIfAbsent(field, f -> new ArrayList<>()).add(message);
             errors.putIfAbsent(field, message);
         });
 
@@ -73,7 +72,7 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(
                 HttpStatus.NOT_FOUND,
                 request.getRequestURI(),
-                "Resource not found!",
+                ex.getMessage(),
                 null
         );
     }
