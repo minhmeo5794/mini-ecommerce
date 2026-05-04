@@ -1,4 +1,4 @@
-package project.backend.mini_ecommerce.security;
+package project.backend.mini_ecommerce.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
