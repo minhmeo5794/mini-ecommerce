@@ -18,7 +18,7 @@ public class ProductController {
     @GetMapping
     public PageResponse<ProductResponse> getAllProducts(
             @RequestParam(required = false) String q,
-            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Long category,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
             @RequestParam(required = false) ProductStatus status,

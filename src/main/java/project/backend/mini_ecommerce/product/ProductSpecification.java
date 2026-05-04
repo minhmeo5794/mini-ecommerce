@@ -12,20 +12,22 @@ public class ProductSpecification {
                 return null;
             }
 
+            String keyword = q.trim().toLowerCase();
+
             return criteriaBuilder.like(
                     criteriaBuilder.lower(root.get("name")),
-                    "%" + q.toLowerCase() + "%"
+                    "%" + keyword + "%"
             );
         };
     }
 
-    public static Specification<Product> hasCategoryName(String name) {
+    public static Specification<Product> hasCategoryId(Long categoryId) {
         return (root, query, criteriaBuilder) -> {
-            if (name == null || name.isBlank()) {
+            if (categoryId == null) {
                 return null;
             }
 
-            return criteriaBuilder.equal(root.get("category").get("name"), name);
+            return criteriaBuilder.equal(root.get("category").get("id"), categoryId);
         };
     }
 
@@ -49,7 +51,7 @@ public class ProductSpecification {
         };
     }
 
-    public static Specification<Product> hasProductStatus(ProductStatus status) {
+    public static Specification<Product> hasStatus(ProductStatus status) {
         return (root, query, criteriaBuilder) -> {
             if (status == null) {
                 return null;

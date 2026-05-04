@@ -6,7 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import project.backend.mini_ecommerce.common.enums.ProductStatus;
-import project.backend.mini_ecommerce.common.exception.custom.ResourceNotFoundException;
+import project.backend.mini_ecommerce.common.exception.BadRequestException;
+import project.backend.mini_ecommerce.common.exception.ResourceNotFoundException;
 import project.backend.mini_ecommerce.common.response.PageResponse;
 import project.backend.mini_ecommerce.product.dto.ProductResponse;
 
@@ -20,17 +21,22 @@ public class ProductService {
 
     public PageResponse<ProductResponse> getAllProducts(
             String q,
-            String category,
+            Long category,
             BigDecimal minPrice,
             BigDecimal maxPrice,
             ProductStatus status,
             Pageable pageable) {
+
+        if (minPrice != null && maxPrice != null && minPrice.compareTo(maxPrice) > 0) {
+            throw new BadRequestException("minPrice must be less than or equal to maxPrice");
+        }
+
         Specification<Product> spec = Specification
                 .where(ProductSpecification.hasQuery(q))
-                .and(ProductSpecification.hasCategoryName(category))
+                .and(ProductSpecification.hasCategoryId(category))
                 .and(ProductSpecification.priceGte(minPrice))
                 .and(ProductSpecification.priceLte(maxPrice))
-                .and(ProductSpecification.hasProductStatus(status));
+                .and(ProductSpecification.hasStatus(status));
 
         Page<ProductResponse> products = productRepository.findAll(spec, pageable).map(productMapper::mapToProductResponse);
 
