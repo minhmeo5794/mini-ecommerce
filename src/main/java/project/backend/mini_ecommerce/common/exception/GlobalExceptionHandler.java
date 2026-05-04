@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import project.backend.mini_ecommerce.common.exception.custom.EmailAlreadyExistsException;
 import project.backend.mini_ecommerce.common.exception.custom.PasswordMismatchException;
-import project.backend.mini_ecommerce.common.exception.custom.ResourceNotFoundException;
 import project.backend.mini_ecommerce.common.response.ErrorResponse;
 
 import java.time.Instant;
@@ -64,6 +63,16 @@ public class GlobalExceptionHandler {
                 request.getRequestURI(),
                 "Validation failed",
                 errors
+        );
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex, HttpServletRequest request) {
+        return buildErrorResponse(
+                HttpStatus.BAD_REQUEST,
+                request.getRequestURI(),
+                ex.getMessage(),
+                null
         );
     }
 
