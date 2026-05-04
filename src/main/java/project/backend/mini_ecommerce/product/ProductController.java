@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import project.backend.mini_ecommerce.common.enums.ProductStatus;
 import project.backend.mini_ecommerce.common.response.PageResponse;
 import project.backend.mini_ecommerce.product.dto.ProductResponse;
 
@@ -19,17 +20,21 @@ public class ProductController {
 
     @GetMapping
     public PageResponse<ProductResponse> getAllProducts(
+            @RequestParam(required = false) String q,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) ProductStatus status,
             Pageable pageable
     ) {
-        System.out.println("pageable: " + pageable.toString());
-        System.out.println("getPageNumber: " + pageable.getPageNumber());
-        System.out.println("getPageSize: " + pageable.getPageSize());
-        System.out.println("getOffset: " + pageable.getOffset());
 
-
-        return productService.getAllProducts(minPrice, maxPrice, pageable);
+        return productService.getAllProducts(
+                q,
+                category,
+                minPrice,
+                maxPrice,
+                status,
+                pageable
+        );
     }
 }
