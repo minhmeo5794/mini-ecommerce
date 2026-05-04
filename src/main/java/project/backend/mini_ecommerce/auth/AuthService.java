@@ -8,8 +8,8 @@ import project.backend.mini_ecommerce.auth.dto.RegisterRequest;
 import project.backend.mini_ecommerce.auth.dto.LoginResponse;
 import project.backend.mini_ecommerce.auth.dto.RegisterResponse;
 import project.backend.mini_ecommerce.common.exception.custom.EmailAlreadyExistsException;
-import project.backend.mini_ecommerce.common.exception.custom.EmailDoesNotExistException;
 import project.backend.mini_ecommerce.common.exception.custom.PasswordMismatchException;
+import project.backend.mini_ecommerce.common.exception.custom.ResourceNotFoundException;
 import project.backend.mini_ecommerce.user.User;
 import project.backend.mini_ecommerce.user.UserRepository;
 import project.backend.mini_ecommerce.security.CustomUserDetails;
@@ -55,7 +55,7 @@ public class AuthService {
 
     public LoginResponse login(LoginRequest request) {
         // Check email and get user if it's exists
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new EmailDoesNotExistException("Invalid email or password"));
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new ResourceNotFoundException("Invalid email or password"));
 
         // Compare password from user with the one in database
         boolean isMatched = passwordEncoder.matches(request.getPassword(), user.getPassword());
