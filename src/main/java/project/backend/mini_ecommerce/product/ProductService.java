@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import project.backend.mini_ecommerce.common.enums.ProductStatus;
+import project.backend.mini_ecommerce.common.exception.custom.ResourceNotFoundException;
 import project.backend.mini_ecommerce.common.response.PageResponse;
 import project.backend.mini_ecommerce.product.dto.ProductResponse;
 
@@ -35,5 +36,10 @@ public class ProductService {
 
 
         return PageResponse.from(products);
+    }
+
+    public ProductResponse getProduct(Long id) {
+
+        return productMapper.mapToProductResponse(productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id)));
     }
 }

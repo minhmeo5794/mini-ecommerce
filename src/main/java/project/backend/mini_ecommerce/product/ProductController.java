@@ -2,10 +2,7 @@ package project.backend.mini_ecommerce.product;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project.backend.mini_ecommerce.common.enums.ProductStatus;
 import project.backend.mini_ecommerce.common.response.PageResponse;
 import project.backend.mini_ecommerce.product.dto.ProductResponse;
@@ -36,5 +33,10 @@ public class ProductController {
                 status,
                 pageable
         );
+    }
+
+    @GetMapping("/{productId}")
+    public ProductResponse getProduct(@PathVariable("productId") Long id) {
+        return productService.getProduct(id);
     }
 }
