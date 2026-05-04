@@ -9,7 +9,7 @@ import project.backend.mini_ecommerce.auth.dto.LoginResponse;
 import project.backend.mini_ecommerce.auth.dto.RegisterResponse;
 import project.backend.mini_ecommerce.common.exception.custom.EmailAlreadyExistsException;
 import project.backend.mini_ecommerce.common.exception.custom.PasswordMismatchException;
-import project.backend.mini_ecommerce.common.exception.custom.ResourceNotFoundException;
+import project.backend.mini_ecommerce.common.exception.ResourceNotFoundException;
 import project.backend.mini_ecommerce.user.User;
 import project.backend.mini_ecommerce.user.UserRepository;
 import project.backend.mini_ecommerce.security.CustomUserDetails;
