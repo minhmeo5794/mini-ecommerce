@@ -8,8 +8,8 @@ import project.backend.mini_ecommerce.common.enums.UserRole;
 @Builder
 @Getter
 public class LoginResponse {
-    private final UserInfo userInfo;
-    private final TokenInfo tokenInfo;
+    private final UserInfo user;
+    private final TokenInfo token;
 
     @Builder
     @Getter
@@ -25,7 +25,7 @@ public class LoginResponse {
     @Getter
     @RequiredArgsConstructor
     public static class TokenInfo {
-        private final String token;
+        private final String accessToken;
         private final String tokenType;
         private final long expiresIn;
     }
