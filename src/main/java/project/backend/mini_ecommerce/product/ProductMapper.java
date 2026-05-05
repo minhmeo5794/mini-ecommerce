@@ -2,12 +2,15 @@ package project.backend.mini_ecommerce.product;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import project.backend.mini_ecommerce.category.Category;
+import project.backend.mini_ecommerce.common.enums.ProductStatus;
+import project.backend.mini_ecommerce.product.dto.CreateProductRequest;
 import project.backend.mini_ecommerce.product.dto.ProductResponse;
 
 @RequiredArgsConstructor
 @Component
 public class ProductMapper {
-    public ProductResponse mapToProductResponse(Product product) {
+    public ProductResponse toProductResponse(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
