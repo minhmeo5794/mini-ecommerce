@@ -20,7 +20,7 @@ public class AuthMapper {
                         .id(user.getId())
                         .email(user.getEmail())
                         .fullName(user.getFullName())
-                        .userRole(user.getRole())
+                        .role(user.getRole())
                         .build())
                 .tokenInfo(LoginResponse.TokenInfo.builder()
                         .token(token)

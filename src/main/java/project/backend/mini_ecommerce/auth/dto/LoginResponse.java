@@ -18,7 +18,7 @@ public class LoginResponse {
         private final Long id;
         private final String email;
         private final String fullName;
-        private final UserRole userRole;
+        private final UserRole role;
     }
 
     @Builder
