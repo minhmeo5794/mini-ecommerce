@@ -10,7 +10,7 @@ import project.backend.mini_ecommerce.product.dto.ProductResponse;
 @RequiredArgsConstructor
 @Component
 public class ProductMapper {
-    public ProductResponse toProductResponse(Product product) {
+    public ProductResponse toResponse(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())

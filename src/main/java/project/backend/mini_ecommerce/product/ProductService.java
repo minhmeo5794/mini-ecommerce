@@ -38,14 +38,21 @@ public class ProductService {
                 .and(ProductSpecification.priceLte(maxPrice))
                 .and(ProductSpecification.hasStatus(status));
 
-        Page<ProductResponse> products = productRepository.findAll(spec, pageable).map(productMapper::mapToProductResponse);
+        Page<ProductResponse> products = productRepository.findAll(spec, pageable).map(productMapper::toResponse);
 
 
         return PageResponse.from(products);
     }
 
     public ProductResponse getProduct(Long id) {
+        return productMapper.toResponse(productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id)));
+    }
 
-        return productMapper.mapToProductResponse(productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id)));
+    public void createProduct(CreateProductRequest request) {
+        Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + request.getCategoryId()));
+
+        ProductStatus status = request.getStockQuantity() == 0 ? ProductStatus.OUT_OF_STOCK : ProductStatus.ACTIVE;
+
+
     }
 }
