@@ -5,7 +5,7 @@ import project.backend.mini_ecommerce.auth.dto.RegisterResponse;
 import project.backend.mini_ecommerce.user.User;
 
 public class AuthMapper {
-    public static RegisterResponse mapToRegisterResponse(User user) {
+    public static RegisterResponse toRegisterResponse(User user) {
         return RegisterResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
@@ -14,7 +14,7 @@ public class AuthMapper {
                 .build();
     }
 
-    public static LoginResponse mapToLoginResponse(User user, String token, long accessTokenExpiresIn) {
+    public static LoginResponse toLoginResponse(User user, String token, long accessTokenExpiresIn) {
         return LoginResponse.builder()
                 .userInfo(LoginResponse.UserInfo.builder()
                         .id(user.getId())

@@ -50,7 +50,7 @@ public class AuthService {
         // Save to database
         User savedUser = userRepository.save(user);
 
-        return AuthMapper.mapToRegisterResponse(savedUser);
+        return AuthMapper.toRegisterResponse(savedUser);
     }
 
     public LoginResponse login(LoginRequest request) {
@@ -72,6 +72,6 @@ public class AuthService {
         String token = jwtService.generateToken(extraClaims, customUserDetails);
         long expiration = jwtService.getJwtExpiration();
 
-        return AuthMapper.mapToLoginResponse(user, token, expiration);
+        return AuthMapper.toLoginResponse(user, token, expiration);
     }
 }
