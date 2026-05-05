@@ -25,4 +25,19 @@ public class ProductMapper {
                         .build())
                 .build();
     }
+
+    public Product toEntity(CreateProductRequest request, ProductStatus status, Category category) {
+        return Product.builder()
+                .name(request.getName())
+                .description(request.getDescription())
+                .price(request.getPrice())
+                .stockQuantity(request.getStockQuantity())
+                .status(status)
+                .category(Category.builder()
+                        .id(category.getId())
+                        .name(category.getName())
+                        .description(category.getDescription())
+                        .build())
+                .build();
+    }
 }

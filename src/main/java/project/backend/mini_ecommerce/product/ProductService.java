@@ -5,10 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import project.backend.mini_ecommerce.category.Category;
+import project.backend.mini_ecommerce.category.CategoryRepository;
 import project.backend.mini_ecommerce.common.enums.ProductStatus;
 import project.backend.mini_ecommerce.common.exception.BadRequestException;
 import project.backend.mini_ecommerce.common.exception.ResourceNotFoundException;
+import project.backend.mini_ecommerce.common.exception.custom.BusinessException;
 import project.backend.mini_ecommerce.common.response.PageResponse;
+import project.backend.mini_ecommerce.product.dto.CreateProductRequest;
 import project.backend.mini_ecommerce.product.dto.ProductResponse;
 
 import java.math.BigDecimal;
@@ -17,6 +21,7 @@ import java.math.BigDecimal;
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
     private final ProductMapper productMapper;
 
     public PageResponse<ProductResponse> getAllProducts(
@@ -48,11 +53,32 @@ public class ProductService {
         return productMapper.toResponse(productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id)));
     }
 
-    public void createProduct(CreateProductRequest request) {
+    public ProductResponse createProduct(CreateProductRequest request) {
         Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + request.getCategoryId()));
+        ProductStatus status = resolveProductStatus(request.getStockQuantity(), request.getStatus());
 
-        ProductStatus status = request.getStockQuantity() == 0 ? ProductStatus.OUT_OF_STOCK : ProductStatus.ACTIVE;
+        Product product = productMapper.toEntity(request, status, category);
+        Product savedProduct = productRepository.save(product);
 
+        return productMapper.toResponse(savedProduct);
+    }
 
+    private ProductStatus resolveProductStatus(Integer stockQuantity, ProductStatus requestedStatus) {
+        if (requestedStatus == null) {
+            return stockQuantity == 0 ? ProductStatus.OUT_OF_STOCK : ProductStatus.ACTIVE;
+        }
+        validateProductStatus(stockQuantity, requestedStatus);
+
+        return requestedStatus;
+    }
+
+    private void validateProductStatus(Integer stockQuantity, ProductStatus requestedStatus) {
+        if (stockQuantity == 0 && requestedStatus != ProductStatus.OUT_OF_STOCK) {
+            throw new BusinessException("If stock quantity is 0, product status must be OUT_OF_STOCK");
+        }
+
+        if (stockQuantity > 0 && requestedStatus == ProductStatus.OUT_OF_STOCK) {
+            throw new BusinessException("If stock quantity is not 0, product status must be either INACTIVE or ACTIVE");
+        }
     }
 }
