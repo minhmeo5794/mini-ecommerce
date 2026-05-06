@@ -3,6 +3,7 @@ package project.backend.mini_ecommerce.category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.backend.mini_ecommerce.category.dto.CategoryResponse;
+import project.backend.mini_ecommerce.common.exception.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -16,5 +17,11 @@ public class CategoryService {
         List<Category> categories = categoryRepository.findAll();
 
         return categories.stream().map(categoryMapper::toResponse).toList();
+    }
+
+    public CategoryResponse getCategory(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + categoryId));
+
+        return categoryMapper.toResponse(category);
     }
 }

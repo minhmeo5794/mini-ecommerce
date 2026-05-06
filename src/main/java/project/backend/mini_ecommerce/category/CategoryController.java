@@ -2,6 +2,7 @@ package project.backend.mini_ecommerce.category;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.backend.mini_ecommerce.category.dto.CategoryResponse;
@@ -17,5 +18,10 @@ public class CategoryController {
     @GetMapping
     public List<CategoryResponse> getAllCategories() {
         return categoryService.getAllCategories();
+    }
+
+    @GetMapping("/{categoryId}")
+    public CategoryResponse getCategory(@PathVariable("categoryId") Long id) {
+        return categoryService.getCategory(id);
     }
 }
