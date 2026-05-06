@@ -8,7 +8,6 @@ import project.backend.mini_ecommerce.common.enums.ProductStatus;
 
 import java.math.BigDecimal;
 
-@Builder
 @Getter
 @RequiredArgsConstructor
 public class CreateProductRequest {
