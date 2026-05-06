@@ -2,7 +2,6 @@ package project.backend.mini_ecommerce.auth.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import project.backend.mini_ecommerce.common.enums.UserRole;
 
 @Builder
@@ -13,7 +12,6 @@ public class LoginResponse {
 
     @Builder
     @Getter
-    @RequiredArgsConstructor
     public static class UserInfo {
         private final Long id;
         private final String email;
@@ -23,7 +21,6 @@ public class LoginResponse {
 
     @Builder
     @Getter
-    @RequiredArgsConstructor
     public static class TokenInfo {
         private final String accessToken;
         private final String tokenType;
