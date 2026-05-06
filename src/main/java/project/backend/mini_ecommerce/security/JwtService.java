@@ -26,15 +26,23 @@ public class JwtService {
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
 
+    // Lấy username từ token
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    // Lấy bất kỳ claim nào từ token
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
+    // Tạo token đơn giản từ UserDetails
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
 
+    // Tạo token với extra claims
     public String generateToken(
             Map<String, Object> extraClaims,
             UserDetails userdetails
@@ -54,6 +62,21 @@ public class JwtService {
                 .expiration(Date.from(Instant.now().plus(expiration, ChronoUnit.MILLIS)))
                 .signWith(getSignInKey())
                 .compact();
+    }
+
+    // Kiểm tra xem token có hợp lệ hay không
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    }
+
+    // Kiểm tra xem token đã hết hạn chưa
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
     }
 
     private Claims extractAllClaims(String token) {
