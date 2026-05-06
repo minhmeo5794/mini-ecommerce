@@ -102,6 +102,13 @@ public class ProductService {
         return productMapper.toResponse(savedProduct);
     }
 
+    @Transactional
+    public void deleteProduct(Long productId) {
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + productId));
+
+        productRepository.delete(product);
+    }
+
     private ProductStatus resolveProductStatusProblemForPartialChange(
             Integer requestStockQuantity,
             Integer currentStockQuantity,
