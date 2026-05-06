@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.backend.mini_ecommerce.product.dto.CreateProductRequest;
 import project.backend.mini_ecommerce.product.dto.ProductResponse;
-import project.backend.mini_ecommerce.product.dto.UpdatePartialProductRequest;
+import project.backend.mini_ecommerce.product.dto.UpdateProductRequest;
 
 
 @RequiredArgsConstructor
@@ -21,8 +21,8 @@ public class AdminProductController {
     }
 
     @PatchMapping("/{productId}")
-    public ProductResponse updatePartialProduct(@PathVariable("productId") Long id, @RequestBody @Valid UpdatePartialProductRequest request) {
-        return productService.updatePartialProduct(id, request);
+    public ProductResponse updateProduct(@PathVariable("productId") Long id, @RequestBody @Valid UpdateProductRequest request) {
+        return productService.updateProduct(id, request);
     }
 
     @DeleteMapping("/{productId}")

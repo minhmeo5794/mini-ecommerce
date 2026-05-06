@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 @Getter
 @RequiredArgsConstructor
-public class UpdatePartialProductRequest {
+public class UpdateProductRequest {
     @Size(max = 100, message = "Product name must not exceed 100 characters")
     private final String name;
 

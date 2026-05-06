@@ -15,7 +15,7 @@ import project.backend.mini_ecommerce.common.exception.custom.BusinessException;
 import project.backend.mini_ecommerce.common.response.PageResponse;
 import project.backend.mini_ecommerce.product.dto.CreateProductRequest;
 import project.backend.mini_ecommerce.product.dto.ProductResponse;
-import project.backend.mini_ecommerce.product.dto.UpdatePartialProductRequest;
+import project.backend.mini_ecommerce.product.dto.UpdateProductRequest;
 
 import java.math.BigDecimal;
 
@@ -57,7 +57,7 @@ public class ProductService {
 
     public ProductResponse createProduct(CreateProductRequest request) {
         Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + request.getCategoryId()));
-        ProductStatus status = resolveProductStatusProblem(request.getStockQuantity(), request.getStatus());
+        ProductStatus status = resolveProductStatusProblemForCreate(request.getStockQuantity(), request.getStatus());
 
         Product product = productMapper.toEntity(request, status, category);
         Product savedProduct = productRepository.save(product);
@@ -66,7 +66,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse updatePartialProduct(Long productId, UpdatePartialProductRequest request) {
+    public ProductResponse updateProduct(Long productId, UpdateProductRequest request) {
         // Kiểm tra xem product có tồn tại không
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product does not exist with id: " + productId));
 
@@ -92,7 +92,7 @@ public class ProductService {
             product.setCategory(category);
         }
 
-        ProductStatus finalProductStatus = resolveProductStatusProblemForPartialChange(
+        ProductStatus finalProductStatus = resolveProductStatusProblemForUpdate(
                 request.getStockQuantity(), product.getStockQuantity(), request.getStatus(), product.getStatus()
         );
         product.setStatus(finalProductStatus);
@@ -109,7 +109,7 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    private ProductStatus resolveProductStatusProblemForPartialChange(
+    private ProductStatus resolveProductStatusProblemForUpdate(
             Integer requestStockQuantity,
             Integer currentStockQuantity,
             ProductStatus requestProductStatus,
@@ -140,7 +140,7 @@ public class ProductService {
         return currentProductStatus;
     }
 
-    private ProductStatus resolveProductStatusProblem(Integer requestStockQuantity, ProductStatus requestedStatus) {
+    private ProductStatus resolveProductStatusProblemForCreate(Integer requestStockQuantity, ProductStatus requestedStatus) {
         if (requestedStatus == null) {
             return requestStockQuantity == 0 ? ProductStatus.OUT_OF_STOCK : ProductStatus.ACTIVE;
         }
