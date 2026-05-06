@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 @Builder
 @Getter
+@RequiredArgsConstructor
 public class ProductResponse {
     private final Long id;
     private final String name;
