@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,7 +27,6 @@ public class Product {
 
     private String description;
 
-//    @DecimalMin(value = "0.01")
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
