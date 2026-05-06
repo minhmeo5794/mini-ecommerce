@@ -1,6 +1,5 @@
 package project.backend.mini_ecommerce.security;
 
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,9 +33,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String jwt = authHeader.substring(7);
         final String userEmail = jwtService.extractUsername(jwt);
-        Object tempClaim = jwtService.extractClaim(jwt, Claims::getExpiration);
-        System.out.println("userEmail: " + userEmail);
-        System.out.println("tempClaim: " + tempClaim);
 
         // Nếu chưa được authenticate
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
