@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.backend.mini_ecommerce.category.Category;
 import project.backend.mini_ecommerce.category.CategoryRepository;
 import project.backend.mini_ecommerce.common.enums.ProductStatus;
@@ -14,6 +15,7 @@ import project.backend.mini_ecommerce.common.exception.custom.BusinessException;
 import project.backend.mini_ecommerce.common.response.PageResponse;
 import project.backend.mini_ecommerce.product.dto.CreateProductRequest;
 import project.backend.mini_ecommerce.product.dto.ProductResponse;
+import project.backend.mini_ecommerce.product.dto.UpdateProductRequest;
 
 import java.math.BigDecimal;
 
@@ -63,16 +65,80 @@ public class ProductService {
         return productMapper.toResponse(savedProduct);
     }
 
-    private ProductStatus resolveProductStatus(Integer stockQuantity, ProductStatus requestedStatus) {
-        if (requestedStatus == null) {
-            return stockQuantity == 0 ? ProductStatus.OUT_OF_STOCK : ProductStatus.ACTIVE;
+    @Transactional
+    public ProductResponse updatePartialProduct(Long productId, UpdateProductRequest request) {
+        // Kiểm tra xem product có tồn tại không
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product does not exist with id: " + productId));
+
+        if (request.getName() != null) {
+            product.setName(request.getName());
         }
 
-        return requestedStatus;
+        if (request.getDescription() != null) {
+            product.setDescription(request.getDescription());
+        }
+
+        if (request.getPrice() != null) {
+            product.setPrice(request.getPrice());
+        }
+
+        if (request.getStockQuantity() != null) {
+            product.setStockQuantity(request.getStockQuantity());
+        }
+
+        if (request.getCategoryId() != null) {
+            Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category does not exist with id: " + request.getCategoryId()));
+
+            product.setCategory(category);
+        }
+
+        ProductStatus finalProductStatus = resolveProductStatusProblemForPartialChange(
+                request.getStockQuantity(), product.getStockQuantity(), request.getStatus(), product.getStatus()
+        );
+        product.setStatus(finalProductStatus);
+
+        Product savedProduct = productRepository.save(product);
+
+        return productMapper.toResponse(savedProduct);
     }
 
-    private void validateProductStatus(Integer stockQuantity, ProductStatus requestedStatus) {
-        if (stockQuantity == 0 && requestedStatus != ProductStatus.OUT_OF_STOCK) {
+    private ProductStatus resolveProductStatusProblemForPartialChange(
+            Integer requestStockQuantity,
+            Integer currentStockQuantity,
+            ProductStatus requestProductStatus,
+            ProductStatus currentProductStatus
+    ) {
+        Integer finalStockQuantity = requestStockQuantity != null ? requestStockQuantity : currentStockQuantity;
+
+        if (finalStockQuantity == 0) {
+            if (requestProductStatus != null && requestProductStatus != ProductStatus.OUT_OF_STOCK) {
+                throw new BusinessException("If stock quantity is 0, product status must be OUT_OF_STOCK");
+            }
+
+            return ProductStatus.OUT_OF_STOCK;
+        }
+
+        if (requestProductStatus == ProductStatus.OUT_OF_STOCK) {
+            throw new BusinessException("If stock quantity is not 0, product status must be either INACTIVE or ACTIVE");
+        }
+
+        if (requestProductStatus != null) {
+            return requestProductStatus;
+        }
+
+        if (currentProductStatus == ProductStatus.OUT_OF_STOCK) {
+            return ProductStatus.ACTIVE;
+        }
+
+        return currentProductStatus;
+    }
+
+    private ProductStatus resolveProductStatusProblem(Integer requestStockQuantity, ProductStatus requestedStatus) {
+        if (requestedStatus == null) {
+            return requestStockQuantity == 0 ? ProductStatus.OUT_OF_STOCK : ProductStatus.ACTIVE;
+        }
+
+        if (requestStockQuantity == 0 && requestedStatus != ProductStatus.OUT_OF_STOCK) {
             throw new BusinessException("If stock quantity is 0, product status must be OUT_OF_STOCK");
         }
 
