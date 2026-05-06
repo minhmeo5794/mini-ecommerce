@@ -55,7 +55,7 @@ public class ProductService {
 
     public ProductResponse createProduct(CreateProductRequest request) {
         Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + request.getCategoryId()));
-        ProductStatus status = resolveProductStatus(request.getStockQuantity(), request.getStatus());
+        ProductStatus status = resolveProductStatusProblem(request.getStockQuantity(), request.getStatus());
 
         Product product = productMapper.toEntity(request, status, category);
         Product savedProduct = productRepository.save(product);
@@ -67,7 +67,6 @@ public class ProductService {
         if (requestedStatus == null) {
             return stockQuantity == 0 ? ProductStatus.OUT_OF_STOCK : ProductStatus.ACTIVE;
         }
-        validateProductStatus(stockQuantity, requestedStatus);
 
         return requestedStatus;
     }
@@ -77,8 +76,10 @@ public class ProductService {
             throw new BusinessException("If stock quantity is 0, product status must be OUT_OF_STOCK");
         }
 
-        if (stockQuantity > 0 && requestedStatus == ProductStatus.OUT_OF_STOCK) {
+        if (requestStockQuantity > 0 && requestedStatus == ProductStatus.OUT_OF_STOCK) {
             throw new BusinessException("If stock quantity is not 0, product status must be either INACTIVE or ACTIVE");
         }
+
+        return requestedStatus;
     }
 }
