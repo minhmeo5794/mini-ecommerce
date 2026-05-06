@@ -24,6 +24,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final AuthMapper authMapper;
 
     public RegisterResponse request(RegisterRequest request) {
         // Check existedEmail
@@ -50,7 +51,7 @@ public class AuthService {
         // Save to database
         User savedUser = userRepository.save(user);
 
-        return AuthMapper.toRegisterResponse(savedUser);
+        return authMapper.toRegisterResponse(savedUser);
     }
 
     public LoginResponse login(LoginRequest request) {
@@ -72,6 +73,6 @@ public class AuthService {
         String token = jwtService.generateToken(extraClaims, customUserDetails);
         long expiration = jwtService.getJwtExpiration();
 
-        return AuthMapper.toLoginResponse(user, token, expiration);
+        return authMapper.toLoginResponse(user, token, expiration);
     }
 }
