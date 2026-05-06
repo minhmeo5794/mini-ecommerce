@@ -27,8 +27,8 @@ public class ProductMapper {
 
     public Product toEntity(CreateProductRequest request, ProductStatus status, Category category) {
         return Product.builder()
-                .name(request.getName())
-                .description(request.getDescription())
+                .name(request.getName().trim())
+                .description(request.getDescription().trim())
                 .price(request.getPrice())
                 .stockQuantity(request.getStockQuantity())
                 .status(status)
