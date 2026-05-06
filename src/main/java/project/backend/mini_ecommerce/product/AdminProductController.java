@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import project.backend.mini_ecommerce.product.dto.CreateProductRequest;
 import project.backend.mini_ecommerce.product.dto.ProductResponse;
-import project.backend.mini_ecommerce.product.dto.UpdateProductRequest;
+import project.backend.mini_ecommerce.product.dto.UpdatePartialProductRequest;
 
 
 @RequiredArgsConstructor
@@ -20,7 +20,7 @@ public class AdminProductController {
     }
 
     @PatchMapping("/{productId}")
-    public ProductResponse updatePartialProduct(@PathVariable("productId") Long id, @RequestBody @Valid UpdateProductRequest request) {
+    public ProductResponse updatePartialProduct(@PathVariable("productId") Long id, @RequestBody @Valid UpdatePartialProductRequest request) {
         return productService.updatePartialProduct(id, request);
     }
 }
