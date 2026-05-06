@@ -15,7 +15,7 @@ import project.backend.mini_ecommerce.common.exception.custom.BusinessException;
 import project.backend.mini_ecommerce.common.response.PageResponse;
 import project.backend.mini_ecommerce.product.dto.CreateProductRequest;
 import project.backend.mini_ecommerce.product.dto.ProductResponse;
-import project.backend.mini_ecommerce.product.dto.UpdateProductRequest;
+import project.backend.mini_ecommerce.product.dto.UpdatePartialProductRequest;
 
 import java.math.BigDecimal;
 
@@ -66,7 +66,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse updatePartialProduct(Long productId, UpdateProductRequest request) {
+    public ProductResponse updatePartialProduct(Long productId, UpdatePartialProductRequest request) {
         // Kiểm tra xem product có tồn tại không
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product does not exist with id: " + productId));
 
