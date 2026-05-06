@@ -7,7 +7,6 @@ import project.backend.mini_ecommerce.common.enums.ProductStatus;
 import project.backend.mini_ecommerce.product.dto.CreateProductRequest;
 import project.backend.mini_ecommerce.product.dto.ProductResponse;
 
-@RequiredArgsConstructor
 @Component
 public class ProductMapper {
     public ProductResponse toResponse(Product product) {
