@@ -5,8 +5,9 @@ target/
 !**/src/test/**/target/
 
 # Temporary
-README.md
+README3.md
 README2.md
+README.md
 
 ### Secrets ###
 .env
