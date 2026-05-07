@@ -10,7 +10,6 @@ import java.util.Map;
 
 @Getter
 @Builder
-@RequiredArgsConstructor
 public class ErrorResponse {
     private final Instant timestamp;
     private final int status;
