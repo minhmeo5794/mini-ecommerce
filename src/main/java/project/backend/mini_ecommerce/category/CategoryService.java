@@ -1,11 +1,14 @@
 package project.backend.mini_ecommerce.category;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import project.backend.mini_ecommerce.category.dto.CategoryResponse;
 import project.backend.mini_ecommerce.category.dto.CreateCategoryRequest;
 import project.backend.mini_ecommerce.common.exception.ResourceNotFoundException;
 import project.backend.mini_ecommerce.common.exception.custom.BusinessException;
+import project.backend.mini_ecommerce.common.response.PageResponse;
 
 import java.util.List;
 
@@ -15,10 +18,10 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
 
-    public List<CategoryResponse> getAllCategories() {
-        List<Category> categories = categoryRepository.findAll();
+    public PageResponse<CategoryResponse> getAllCategories(Pageable pageable) {
+        Page<CategoryResponse> categories = categoryRepository.findAll(pageable).map(categoryMapper::toResponse);
 
-        return categories.stream().map(categoryMapper::toResponse).toList();
+        return PageResponse.from(categories);
     }
 
     public CategoryResponse getCategory(Long categoryId) {
