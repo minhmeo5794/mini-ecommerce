@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.backend.mini_ecommerce.category.dto.CategoryResponse;
 import project.backend.mini_ecommerce.category.dto.CreateCategoryRequest;
+import project.backend.mini_ecommerce.category.dto.UpdateCategoryRequest;
 import project.backend.mini_ecommerce.common.response.ApiResponse;
 import project.backend.mini_ecommerce.common.response.PageResponse;
 
@@ -52,6 +53,30 @@ public class CategoryController {
                         categoryService.createCategory(request),
                         "Category created successfully",
                         HttpStatus.CREATED.value(),
+                        httpServletRequest
+                ));
+    }
+
+    @PatchMapping("/{categoryId}")
+    public ResponseEntity<ApiResponse<CategoryResponse>> updateCategory(@PathVariable("categoryId") Long id, @RequestBody @Valid UpdateCategoryRequest request, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.ok().body(
+                ApiResponse.success(
+                        categoryService.updateCategory(id, request),
+                        "Category updated successfully",
+                        HttpStatus.OK.value(),
+                        httpServletRequest
+                ));
+    }
+
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<ApiResponse<CategoryResponse>> deleteCategory(@PathVariable("categoryId") Long id, HttpServletRequest httpServletRequest) {
+        categoryService.deleteCategory(id);
+
+        return ResponseEntity.ok().body(
+                ApiResponse.success(
+                        null,
+                        "Category deleted successfully",
+                        HttpStatus.OK.value(),
                         httpServletRequest
                 ));
     }
