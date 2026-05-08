@@ -28,7 +28,7 @@ public class CategoryController {
         return ResponseEntity.ok().body(
                 ApiResponse.success(
                         categoryService.getAllCategories(pageable),
-                        "Get all categories successfully",
+                        "Categories retrieved successfully",
                         HttpStatus.OK.value(),
                         httpServletRequest
                 ));
@@ -39,7 +39,7 @@ public class CategoryController {
         return ResponseEntity.ok().body(
                 ApiResponse.success(
                         categoryService.getCategory(id),
-                        "Get category successfully",
+                        "Category retrieved successfully",
                         HttpStatus.OK.value(),
                         httpServletRequest
                 ));
