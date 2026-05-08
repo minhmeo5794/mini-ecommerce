@@ -1,6 +1,5 @@
 package project.backend.mini_ecommerce.product;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import project.backend.mini_ecommerce.category.Category;
 import project.backend.mini_ecommerce.common.enums.ProductStatus;
