@@ -15,7 +15,7 @@ public class ProductResponse {
     private final BigDecimal price;
     private final Integer stockQuantity;
     private final ProductStatus productStatus;
-    private final CategoryInfo categoryInfo;
+    private final CategoryInfo category;
 
     @Getter
     @Builder
