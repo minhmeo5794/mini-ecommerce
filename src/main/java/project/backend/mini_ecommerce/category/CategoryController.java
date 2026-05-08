@@ -23,8 +23,8 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<PageResponse<CategoryResponse>>> getAllCategories(
-            HttpServletRequest httpServletRequest,
-            @PageableDefault(page = 0, size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable
+            @PageableDefault(page = 0, size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable,
+            HttpServletRequest httpServletRequest
     ) {
         return ResponseEntity.ok().body(
                 ApiResponse.success(
