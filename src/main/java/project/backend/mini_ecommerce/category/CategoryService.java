@@ -6,11 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import project.backend.mini_ecommerce.category.dto.CategoryResponse;
 import project.backend.mini_ecommerce.category.dto.CreateCategoryRequest;
+import project.backend.mini_ecommerce.category.dto.UpdateCategoryRequest;
 import project.backend.mini_ecommerce.common.exception.ResourceNotFoundException;
 import project.backend.mini_ecommerce.common.exception.custom.BusinessException;
 import project.backend.mini_ecommerce.common.response.PageResponse;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -41,5 +40,28 @@ public class CategoryService {
         Category savedCategory = categoryRepository.save(category);
 
         return categoryMapper.toResponse(savedCategory);
+    }
+
+    public CategoryResponse updateCategory(Long categoryId, UpdateCategoryRequest request) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category does not exist with id: " + categoryId));
+
+        if (request.getName() != null) {
+            category.setName(request.getName());
+        }
+
+        if (request.getDescription() != null) {
+            category.setDescription(request.getDescription());
+        }
+
+        Category savedCategory = categoryRepository.save(category);
+
+        return categoryMapper.toResponse(savedCategory);
+    }
+
+    public void deleteCategory(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category does not exist with id: " + categoryId));
+
+
+        categoryRepository.delete(category);
     }
 }
