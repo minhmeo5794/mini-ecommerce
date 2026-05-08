@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class CategoryController {
     @GetMapping
     public ResponseEntity<ApiResponse<PageResponse<CategoryResponse>>> getAllCategories(
             HttpServletRequest httpServletRequest,
-            @PageableDefault(page = 0, size = 5) Pageable pageable
+            @PageableDefault(page = 0, size = 5, sort = "name", direction = Sort.Direction.ASC) Pageable pageable
     ) {
         return ResponseEntity.ok().body(
                 ApiResponse.success(
