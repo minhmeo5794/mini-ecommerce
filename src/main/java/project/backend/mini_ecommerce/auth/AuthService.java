@@ -26,7 +26,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthMapper authMapper;
 
-    public RegisterResponse request(RegisterRequest request) {
+    public RegisterResponse register(RegisterRequest request) {
         // Check existedEmail
         boolean isExisted = userRepository.existsByEmail(request.getEmail());
         if (isExisted) {
