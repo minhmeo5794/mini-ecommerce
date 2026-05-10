@@ -42,11 +42,7 @@ public class AuthService {
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         // Create a new user
-        User user = User.builder()
-                .email(request.getEmail())
-                .fullName(request.getFullName())
-                .password(encodedPassword)
-                .build();
+        User user = authMapper.toEntity(request, encodedPassword);
 
         // Save to database
         User savedUser = userRepository.save(user);
