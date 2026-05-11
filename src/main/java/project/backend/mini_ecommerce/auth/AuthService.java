@@ -28,8 +28,9 @@ public class AuthService {
 
     public RegisterResponse register(RegisterRequest request) {
         // Check email already exists
-        boolean emailAlreadyExists = userRepository.existsByEmail(request.getEmail());
-        if (emailAlreadyExists) {
+        boolean doesEmailExist = userRepository.existsByEmail(request.getEmail());
+
+        if (doesEmailExist) {
             throw new EmailAlreadyExistsException("Email already exists");
         }
 
