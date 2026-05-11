@@ -27,9 +27,9 @@ public class AuthService {
     private final AuthMapper authMapper;
 
     public RegisterResponse register(RegisterRequest request) {
-        // Check existedEmail
-        boolean isExisted = userRepository.existsByEmail(request.getEmail());
-        if (isExisted) {
+        // Check email already exists
+        boolean emailAlreadyExists = userRepository.existsByEmail(request.getEmail());
+        if (emailAlreadyExists) {
             throw new EmailAlreadyExistsException("Email already exists");
         }
 
