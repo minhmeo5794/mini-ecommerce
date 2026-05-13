@@ -28,19 +28,19 @@ public class ProductService {
 
     public PageResponse<ProductResponse> getAllProducts(
             String q,
-            Long category,
+            Long categoryId,
             BigDecimal minPrice,
             BigDecimal maxPrice,
             ProductStatus status,
-            Pageable pageable) {
-
+            Pageable pageable
+    ) {
         if (minPrice != null && maxPrice != null && minPrice.compareTo(maxPrice) > 0) {
             throw new BadRequestException("minPrice must be less than or equal to maxPrice");
         }
 
         Specification<Product> spec = Specification
                 .where(ProductSpecification.hasQuery(q))
-                .and(ProductSpecification.hasCategoryId(category))
+                .and(ProductSpecification.hasCategoryId(categoryId))
                 .and(ProductSpecification.priceGte(minPrice))
                 .and(ProductSpecification.priceLte(maxPrice))
                 .and(ProductSpecification.hasStatus(status));
