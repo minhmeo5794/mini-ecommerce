@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({EmailAlreadyExistsException.class, PasswordMismatchException.class, BusinessException.class})
-    public ResponseEntity<ErrorResponse> handleBadRequestException(Exception ex, HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> handleCustomException(Exception ex, HttpServletRequest request) {
         return buildErrorResponse(
                 HttpStatus.BAD_REQUEST,
                 request.getRequestURI(),
