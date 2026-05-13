@@ -9,12 +9,15 @@ import project.backend.mini_ecommerce.category.dto.CreateCategoryRequest;
 import project.backend.mini_ecommerce.category.dto.UpdateCategoryRequest;
 import project.backend.mini_ecommerce.common.exception.ResourceNotFoundException;
 import project.backend.mini_ecommerce.common.exception.custom.BusinessException;
+import project.backend.mini_ecommerce.common.exception.custom.ConflictException;
 import project.backend.mini_ecommerce.common.response.PageResponse;
+import project.backend.mini_ecommerce.product.ProductRepository;
 
 @RequiredArgsConstructor
 @Service
 public class CategoryService {
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
     private final CategoryMapper categoryMapper;
 
     public PageResponse<CategoryResponse> getAllCategories(Pageable pageable) {
@@ -61,6 +64,10 @@ public class CategoryService {
     public void deleteCategory(Long categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category does not exist with id: " + categoryId));
 
+        boolean hasProduct = productRepository.existsByCategoryId(categoryId);
+        if (hasProduct) {
+            throw new ConflictException("Cannot delete category because it still has products");
+        }
 
         categoryRepository.delete(category);
     }
