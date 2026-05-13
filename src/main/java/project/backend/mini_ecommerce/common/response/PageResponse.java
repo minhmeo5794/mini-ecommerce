@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Builder
 public class PageResponse<T> {
-    private List<T> data;
+    private List<T> items;
     private PaginationInfo pagination;
 
     @Getter
@@ -27,7 +27,7 @@ public class PageResponse<T> {
 
     public static <T> PageResponse<T> from(Page<T> page) {
         return PageResponse.<T>builder()
-                .data(page.getContent())
+                .items(page.getContent())
                 .pagination(PaginationInfo.builder()
                         .page(page.getNumber())
                         .size(page.getSize())
