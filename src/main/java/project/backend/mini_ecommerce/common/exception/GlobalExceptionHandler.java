@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import project.backend.mini_ecommerce.common.exception.custom.BusinessException;
+import project.backend.mini_ecommerce.common.exception.custom.ConflictException;
 import project.backend.mini_ecommerce.common.exception.custom.EmailAlreadyExistsException;
 import project.backend.mini_ecommerce.common.exception.custom.PasswordMismatchException;
 import project.backend.mini_ecommerce.common.response.ErrorResponse;
@@ -42,6 +43,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleCustomException(Exception ex, HttpServletRequest request) {
         return buildErrorResponse(
                 HttpStatus.BAD_REQUEST,
+                request.getRequestURI(),
+                ex.getMessage(),
+                null
+        );
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ErrorResponse> handleConflictException(Exception ex, HttpServletRequest request) {
+        return buildErrorResponse(
+                HttpStatus.CONFLICT,
                 request.getRequestURI(),
                 ex.getMessage(),
                 null
