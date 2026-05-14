@@ -20,7 +20,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<RegisterResponse>> register(@RequestBody @Valid RegisterRequest request, HttpServletRequest httpServletRequest) {
-
         return ResponseEntity.ok().body(
                 ApiResponse.success(
                         authService.register(request),
@@ -32,7 +31,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@RequestBody @Valid LoginRequest request, HttpServletRequest httpServletRequest) {
-
         return ResponseEntity.ok().body(
                 ApiResponse.success(
                         authService.login(request),

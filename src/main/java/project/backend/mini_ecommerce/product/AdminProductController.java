@@ -20,7 +20,6 @@ public class AdminProductController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<ProductResponse>> createProduct(@RequestBody @Valid CreateProductRequest request, HttpServletRequest httpServletRequest) {
-
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 ApiResponse.success(
                         productService.createProduct(request),
@@ -32,7 +31,6 @@ public class AdminProductController {
 
     @PatchMapping("/{productId}")
     public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(@PathVariable("productId") Long id, @RequestBody @Valid UpdateProductRequest request, HttpServletRequest httpServletRequest) {
-
         return ResponseEntity.ok().body(
                 ApiResponse.success(
                         productService.updateProduct(id, request),
