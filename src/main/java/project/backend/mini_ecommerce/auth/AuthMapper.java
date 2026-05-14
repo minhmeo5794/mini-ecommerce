@@ -12,6 +12,7 @@ public class AuthMapper {
         return User.builder()
                 .email(request.getEmail())
                 .fullName(request.getFullName())
+                .phoneNumber(request.getPhoneNumber())
                 .password(encodedPassword)
                 .build();
     }
@@ -21,6 +22,7 @@ public class AuthMapper {
                 .id(user.getId())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
+                .phoneNumber(user.getPhoneNumber())
                 .createdAt(user.getCreatedAt())
                 .build();
     }
@@ -31,6 +33,7 @@ public class AuthMapper {
                         .id(user.getId())
                         .email(user.getEmail())
                         .fullName(user.getFullName())
+                        .phoneNumber(user.getPhoneNumber())
                         .role(user.getRole())
                         .build())
                 .token(LoginResponse.TokenInfo.builder()
