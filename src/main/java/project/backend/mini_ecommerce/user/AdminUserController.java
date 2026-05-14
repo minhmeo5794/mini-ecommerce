@@ -9,9 +9,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import project.backend.mini_ecommerce.auth.AuthService;
-import project.backend.mini_ecommerce.auth.dto.RegisterRequest;
-import project.backend.mini_ecommerce.auth.dto.RegisterResponse;
 import project.backend.mini_ecommerce.common.response.ApiResponse;
 import project.backend.mini_ecommerce.common.response.PageResponse;
 import project.backend.mini_ecommerce.user.dto.CreateUserRequest;
@@ -22,7 +19,6 @@ import project.backend.mini_ecommerce.user.dto.UserResponse;
 @RestController
 public class AdminUserController {
     private final UserService userService;
-    private final AuthService authService;
 
     @GetMapping
     public ResponseEntity<ApiResponse<PageResponse<UserResponse>>> getAllUsers(
