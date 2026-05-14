@@ -11,6 +11,7 @@ import project.backend.mini_ecommerce.common.enums.UserStatus;
 import java.time.Instant;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
