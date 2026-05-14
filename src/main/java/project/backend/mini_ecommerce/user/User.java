@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import project.backend.mini_ecommerce.common.enums.UserRole;
+import project.backend.mini_ecommerce.common.enums.UserStatus;
 
 import java.time.Instant;
 
@@ -30,10 +31,18 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String phoneNumber;
+
     @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role = UserRole.USER;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserStatus status = UserStatus.ACTIVE;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
