@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConflictException.class)
-    public ResponseEntity<ErrorResponse> handleConflictException(Exception ex, HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> handleConflictException(ConflictException ex, HttpServletRequest request) {
         return buildErrorResponse(
                 HttpStatus.CONFLICT,
                 request.getRequestURI(),
