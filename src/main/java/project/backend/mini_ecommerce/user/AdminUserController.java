@@ -8,6 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.backend.mini_ecommerce.common.response.ApiResponse;
@@ -29,6 +30,17 @@ public class AdminUserController {
                 ApiResponse.success(
                         userService.getAllUsers(pageable),
                         "Users retrieved successfully",
+                        HttpStatus.OK.value(),
+                        httpServletRequest
+                ));
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponse<UserResponse>> getUser(@PathVariable("userId") Long id, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.ok().body(
+                ApiResponse.success(
+                        userService.getUser(id),
+                        "User retrieved successfully",
                         HttpStatus.OK.value(),
                         httpServletRequest
                 ));
