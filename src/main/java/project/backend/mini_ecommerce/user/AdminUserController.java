@@ -17,7 +17,7 @@ import project.backend.mini_ecommerce.user.dto.UserResponse;
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/users")
 @RestController
-public class UserController {
+public class AdminUserController {
     private final UserService userService;
 
     @GetMapping
