@@ -18,7 +18,7 @@ import project.backend.mini_ecommerce.common.response.PageResponse;
 @RequiredArgsConstructor
 @RequestMapping("/api/admin/categories")
 @RestController
-public class CategoryController {
+public class AdminCategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
