@@ -14,6 +14,7 @@ import project.backend.mini_ecommerce.auth.dto.RegisterRequest;
 import project.backend.mini_ecommerce.auth.dto.RegisterResponse;
 import project.backend.mini_ecommerce.common.response.ApiResponse;
 import project.backend.mini_ecommerce.common.response.PageResponse;
+import project.backend.mini_ecommerce.user.dto.CreateUserRequest;
 import project.backend.mini_ecommerce.user.dto.UserResponse;
 
 @RequiredArgsConstructor
@@ -49,10 +50,10 @@ public class AdminUserController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<RegisterResponse>> createUser(@RequestBody @Valid RegisterRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ApiResponse<UserResponse>> createUser(@RequestBody @Valid CreateUserRequest request, HttpServletRequest httpServletRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 ApiResponse.success(
-                        authService.register(request),
+                        userService.createUser(request),
                         "User created successfully",
                         HttpStatus.CREATED.value(),
                         httpServletRequest
