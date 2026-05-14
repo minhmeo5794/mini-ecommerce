@@ -1,16 +1,17 @@
 package project.backend.mini_ecommerce.user;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import project.backend.mini_ecommerce.auth.AuthService;
+import project.backend.mini_ecommerce.auth.dto.RegisterRequest;
+import project.backend.mini_ecommerce.auth.dto.RegisterResponse;
 import project.backend.mini_ecommerce.common.response.ApiResponse;
 import project.backend.mini_ecommerce.common.response.PageResponse;
 import project.backend.mini_ecommerce.user.dto.UserResponse;
@@ -20,6 +21,7 @@ import project.backend.mini_ecommerce.user.dto.UserResponse;
 @RestController
 public class AdminUserController {
     private final UserService userService;
+    private final AuthService authService;
 
     @GetMapping
     public ResponseEntity<ApiResponse<PageResponse<UserResponse>>> getAllUsers(
@@ -42,6 +44,17 @@ public class AdminUserController {
                         userService.getUser(id),
                         "User retrieved successfully",
                         HttpStatus.OK.value(),
+                        httpServletRequest
+                ));
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<RegisterResponse>> createUser(@RequestBody @Valid RegisterRequest request, HttpServletRequest httpServletRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                ApiResponse.success(
+                        authService.register(request),
+                        "User created successfully",
+                        HttpStatus.CREATED.value(),
                         httpServletRequest
                 ));
     }
