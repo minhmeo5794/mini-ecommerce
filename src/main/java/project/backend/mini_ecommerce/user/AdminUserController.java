@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import project.backend.mini_ecommerce.common.response.ApiResponse;
 import project.backend.mini_ecommerce.common.response.PageResponse;
 import project.backend.mini_ecommerce.user.dto.CreateUserRequest;
+import project.backend.mini_ecommerce.user.dto.UpdateUserStatusRequest;
 import project.backend.mini_ecommerce.user.dto.UserResponse;
 
 @RequiredArgsConstructor
@@ -52,6 +53,19 @@ public class AdminUserController {
                         userService.createUser(request),
                         "User created successfully",
                         HttpStatus.CREATED.value(),
+                        httpServletRequest
+                ));
+    }
+
+    @PatchMapping("/{userId}/status")
+    public ResponseEntity<ApiResponse<UserResponse>> updateUserStatus(@PathVariable("userId") Long id, @RequestBody @Valid UpdateUserStatusRequest request, HttpServletRequest httpServletRequest) {
+        userService.updateUserStatus(id, request);
+
+        return ResponseEntity.ok().body(
+                ApiResponse.success(
+                        null,
+                        "User status changed successfully",
+                        HttpStatus.OK.value(),
                         httpServletRequest
                 ));
     }
