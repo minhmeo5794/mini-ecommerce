@@ -79,8 +79,19 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
 
+        if (currentUserService.getCurrentUserId().equals(userId)) {
+            throw new BusinessException("You cannot delete yourself");
+        }
+
+        if (user.getRole() == UserRole.ADMIN) {
+            throw new BusinessException("You cannot delete another admin");
+        }
+
+        userRepository.delete(user);
     }
 
     public UserResponse getMe() {

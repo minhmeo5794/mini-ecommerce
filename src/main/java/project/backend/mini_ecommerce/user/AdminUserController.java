@@ -71,7 +71,15 @@ public class AdminUserController {
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable("userId") Long id, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ApiResponse<UserResponse>> deleteUser(@PathVariable("userId") Long id, HttpServletRequest httpServletRequest) {
         userService.deleteUser(id);
+
+        return ResponseEntity.ok().body(
+                ApiResponse.success(
+                        null,
+                        "User deleted successfully",
+                        HttpStatus.OK.value(),
+                        httpServletRequest
+                ));
     }
 }
