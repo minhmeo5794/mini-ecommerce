@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import project.backend.mini_ecommerce.common.response.ApiResponse;
 import project.backend.mini_ecommerce.common.response.PageResponse;
 import project.backend.mini_ecommerce.user.dto.CreateUserRequest;
+import project.backend.mini_ecommerce.user.dto.UpdateUserRoleRequest;
 import project.backend.mini_ecommerce.user.dto.UpdateUserStatusRequest;
 import project.backend.mini_ecommerce.user.dto.UserResponse;
 
@@ -65,6 +66,19 @@ public class AdminUserController {
                 ApiResponse.success(
                         null,
                         "User status changed successfully",
+                        HttpStatus.OK.value(),
+                        httpServletRequest
+                ));
+    }
+
+    @PatchMapping("/{userId}/role")
+    public ResponseEntity<ApiResponse<UserResponse>> updateUserRole(@PathVariable("userId") Long id, @RequestBody @Valid UpdateUserRoleRequest request, HttpServletRequest httpServletRequest) {
+        userService.updateUserRole(id, request);
+
+        return ResponseEntity.ok().body(
+                ApiResponse.success(
+                        null,
+                        "User role changed successfully",
                         HttpStatus.OK.value(),
                         httpServletRequest
                 ));

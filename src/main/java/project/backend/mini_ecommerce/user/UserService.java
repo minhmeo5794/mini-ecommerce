@@ -14,6 +14,7 @@ import project.backend.mini_ecommerce.common.exception.custom.EmailAlreadyExists
 import project.backend.mini_ecommerce.common.response.PageResponse;
 import project.backend.mini_ecommerce.helper.CurrentUserService;
 import project.backend.mini_ecommerce.user.dto.CreateUserRequest;
+import project.backend.mini_ecommerce.user.dto.UpdateUserRoleRequest;
 import project.backend.mini_ecommerce.user.dto.UpdateUserStatusRequest;
 import project.backend.mini_ecommerce.user.dto.UserResponse;
 
@@ -83,6 +84,40 @@ public class UserService {
         }
 
         user.setStatus(request.getStatus());
+
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void updateUserRole(Long userId, UpdateUserRoleRequest request) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        UserRole requestRole = request.getRole();
+
+        if (currentUserService.getCurrentUserId().equals(userId)) {
+            throw new BusinessException("You cannot change your own role");
+        }
+
+        if (currentUserService.getCurrentUserRole() == UserRole.ADMIN) {
+            if (user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.SUPER_ADMIN) {
+                throw new BusinessException("You cannot change another ADMIN role");
+            }
+        }
+
+        if (currentUserService.getCurrentUserRole() == UserRole.SUPER_ADMIN) {
+            if (user.getRole() == UserRole.SUPER_ADMIN) {
+                throw new BusinessException("You cannot change another SUPER_ADMIN role");
+            }
+        }
+
+        if (requestRole == UserRole.SUPER_ADMIN) {
+            throw new BusinessException("Cannot change role of SUPER_ADMIN");
+        }
+
+        if (user.getRole() == requestRole) {
+            return;
+        }
+
+        user.setRole(requestRole);
 
         userRepository.save(user);
     }
