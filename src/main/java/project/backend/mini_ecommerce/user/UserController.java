@@ -18,12 +18,11 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/me")
-    public ResponseEntity<ApiResponse<UserResponse>> getMe(Authentication authentication, HttpServletRequest httpServletRequest) {
-        String email = authentication.getName();
+    public ResponseEntity<ApiResponse<UserResponse>> getMe(HttpServletRequest httpServletRequest) {
 
         return ResponseEntity.ok().body(
                 ApiResponse.success(
-                        userService.getMe(email),
+                        userService.getMe(),
                         "Current user retrieved successfully",
                         HttpStatus.OK.value(),
                         httpServletRequest

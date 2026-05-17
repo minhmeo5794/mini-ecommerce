@@ -11,6 +11,7 @@ import project.backend.mini_ecommerce.common.exception.ResourceNotFoundException
 import project.backend.mini_ecommerce.common.exception.custom.BusinessException;
 import project.backend.mini_ecommerce.common.exception.custom.EmailAlreadyExistsException;
 import project.backend.mini_ecommerce.common.response.PageResponse;
+import project.backend.mini_ecommerce.helper.CurrentUserService;
 import project.backend.mini_ecommerce.user.dto.CreateUserRequest;
 import project.backend.mini_ecommerce.user.dto.UpdateUserStatusRequest;
 import project.backend.mini_ecommerce.user.dto.UserResponse;
@@ -21,6 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final CurrentUserService currentUserService;
 
     public PageResponse<UserResponse> getAllUsers(Pageable pageable) {
         Page<UserResponse> users = userRepository.findAll(pageable).map(userMapper::toResponse);
@@ -75,8 +77,8 @@ public class UserService {
 
     }
 
-    public UserResponse getMe(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+    public UserResponse getMe() {
+        User user = currentUserService.getCurrentUser();
 
         return userMapper.toResponse(user);
     }
