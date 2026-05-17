@@ -64,6 +64,10 @@ public class UserService {
             throw new BusinessException("You cannot lock another admin");
         }
 
+        if (currentUserService.getCurrentUserId().equals(userId)) {
+            throw new BusinessException("You cannot change your own status");
+        }
+
         if (user.getStatus() == requestStatus) {
             return;
         }
