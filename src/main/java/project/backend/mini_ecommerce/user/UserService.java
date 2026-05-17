@@ -62,12 +62,12 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
         UserStatus requestStatus = request.getStatus();
 
-        if (user.getRole() == UserRole.ADMIN) {
-            throw new BusinessException("You cannot lock another admin");
-        }
-
         if (currentUserService.getCurrentUserId().equals(userId)) {
             throw new BusinessException("You cannot change your own status");
+        }
+
+        if (user.getRole() == UserRole.ADMIN) {
+            throw new BusinessException("You cannot lock another admin");
         }
 
         if (user.getStatus() == requestStatus) {
