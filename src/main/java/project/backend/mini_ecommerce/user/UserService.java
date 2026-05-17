@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.backend.mini_ecommerce.common.enums.UserRole;
 import project.backend.mini_ecommerce.common.enums.UserStatus;
 import project.backend.mini_ecommerce.common.exception.ResourceNotFoundException;
@@ -56,6 +57,7 @@ public class UserService {
         return userMapper.toResponse(savedUser);
     }
 
+    @Transactional
     public void updateUserStatus(Long userId, UpdateUserStatusRequest request) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
         UserStatus requestStatus = request.getStatus();
