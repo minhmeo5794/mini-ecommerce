@@ -67,7 +67,7 @@ public class UserService {
         }
 
         if (user.getRole() == UserRole.ADMIN) {
-            throw new BusinessException("You cannot lock another admin");
+            throw new BusinessException("You cannot change another admin status");
         }
 
         if (user.getStatus() == requestStatus) {
