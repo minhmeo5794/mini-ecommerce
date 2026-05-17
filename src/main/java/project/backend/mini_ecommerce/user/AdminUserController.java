@@ -69,4 +69,9 @@ public class AdminUserController {
                         httpServletRequest
                 ));
     }
+
+    @DeleteMapping("/{userId}")
+    public void deleteUser(@PathVariable("userId") Long id, HttpServletRequest httpServletRequest) {
+        userService.deleteUser(id);
+    }
 }
