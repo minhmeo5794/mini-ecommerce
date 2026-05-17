@@ -34,9 +34,8 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers("/api/products/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/user/**").hasAnyRole(UserRole.USER.name(), UserRole.ADMIN.name())
-//                        .requestMatchers("/api/admin/**").hasRole(UserRole.ADMIN.name())
-                        .requestMatchers("/api/admin/**").permitAll()
+                        .requestMatchers("/api/user/**").hasAnyRole(UserRole.SUPER_ADMIN.name(), UserRole.ADMIN.name(), UserRole.USER.name())
+                        .requestMatchers("/api/admin/**").hasAnyRole(UserRole.SUPER_ADMIN.name(), UserRole.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Set STATELESS vì JWT quản lý trạng thái
