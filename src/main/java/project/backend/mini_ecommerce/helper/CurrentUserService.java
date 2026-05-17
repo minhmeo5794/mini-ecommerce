@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import project.backend.mini_ecommerce.common.enums.UserRole;
 import project.backend.mini_ecommerce.common.exception.ResourceNotFoundException;
 import project.backend.mini_ecommerce.user.User;
 import project.backend.mini_ecommerce.user.UserRepository;
@@ -23,5 +24,9 @@ public class CurrentUserService {
 
     public Long getCurrentUserId() {
         return getCurrentUser().getId();
+    }
+
+    public UserRole getCurrentUserRole() {
+        return getCurrentUser().getRole();
     }
 }
