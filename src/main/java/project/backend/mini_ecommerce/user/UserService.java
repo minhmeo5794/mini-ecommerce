@@ -74,4 +74,10 @@ public class UserService {
     public void deleteUser(Long userId) {
 
     }
+
+    public UserResponse getMe(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new BusinessException("User not found with email: " + email));
+
+        return userMapper.toResponse(user);
+    }
 }
