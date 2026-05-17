@@ -68,13 +68,13 @@ public class UserService {
 
         if (currentUserService.getCurrentUserRole() == UserRole.ADMIN) {
             if (user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.SUPER_ADMIN) {
-                throw new BusinessException("You cannot change another admin status");
+                throw new BusinessException("You cannot change another ADMIN status");
             }
         }
 
         if (currentUserService.getCurrentUserRole() == UserRole.SUPER_ADMIN) {
             if (user.getRole() == UserRole.SUPER_ADMIN) {
-                throw new BusinessException("You cannot change another super admin status");
+                throw new BusinessException("You cannot change another SUPER_ADMIN status");
             }
         }
 
