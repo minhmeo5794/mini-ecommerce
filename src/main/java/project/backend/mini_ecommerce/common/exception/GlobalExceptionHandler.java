@@ -26,16 +26,16 @@ public class GlobalExceptionHandler {
             HttpStatus status,
             String path,
             String message,
-            Map<String, String> errors
+            Map<String, String> details
     ) {
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .timestamp(Instant.now())
                 .status(status.value())
-                .error(status.getReasonPhrase())
+                .code(status.getReasonPhrase())
                 .path(path)
                 .message(message)
-                .errors(errors)
+                .details(details)
                 .build();
         return ResponseEntity.status(status).body(errorResponse);
     }
@@ -72,20 +72,20 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> details = new HashMap<>();
 
         ex.getBindingResult().getFieldErrors().forEach(error -> {
             String field = error.getField();
             String message = error.getDefaultMessage();
 
-            errors.putIfAbsent(field, message);
+            details.putIfAbsent(field, message);
         });
 
         return buildErrorResponse(
                 HttpStatus.BAD_REQUEST,
                 request.getRequestURI(),
                 "Validation failed",
-                errors
+                details
         );
     }
 

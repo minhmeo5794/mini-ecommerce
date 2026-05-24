@@ -11,12 +11,12 @@ import java.util.Map;
 @Getter
 @Builder
 public class ErrorResponse {
-    private final String error;
+    private final String code;
     private final String message;
     private final int status;
     private final String path;
     private final Instant timestamp;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private final Map<String, String> errors;
+    private final Map<String, String> details;
 }
