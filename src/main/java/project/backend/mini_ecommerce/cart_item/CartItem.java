@@ -14,7 +14,15 @@ import java.time.Instant;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "cart_items")
+@Table(
+        name = "cart_items",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_cart_items_carts_products",
+                        columnNames = {"cart_id", "product_id"}
+                )
+        }
+)
 @Entity
 public class CartItem {
     @Id
