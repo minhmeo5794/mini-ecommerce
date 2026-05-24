@@ -8,6 +8,7 @@ import project.backend.mini_ecommerce.cart_item.CartItem;
 import project.backend.mini_ecommerce.user.User;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -26,8 +27,12 @@ public class Cart {
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart") // mappedBy
-    private List<CartItem> cartItems;
+    @OneToMany(
+            mappedBy = "cart",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    private List<CartItem> cartItems = new ArrayList<>();
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
