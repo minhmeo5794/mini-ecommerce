@@ -54,7 +54,6 @@ public class ProductService {
 
         Page<ProductResponse> products = productRepository.findAll(spec, pageable).map(productMapper::toResponse);
 
-
         return PageResponse.from(products);
     }
 
