@@ -31,6 +31,7 @@ public class Cart {
             mappedBy = "cart",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL
+//            orphanRemoval = true
     )
     private List<CartItem> cartItems = new ArrayList<>();
 
