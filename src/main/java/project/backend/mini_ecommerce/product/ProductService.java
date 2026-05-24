@@ -38,9 +38,11 @@ public class ProductService {
             throw new BadRequestException("minPrice must be less than or equal to maxPrice");
         }
 
-        boolean hasCategory = categoryRepository.existsById(categoryId);
-        if (!hasCategory) {
-            throw new ResourceNotFoundException("Category not found with id: " + categoryId);
+        if (categoryId != null) {
+            boolean hasCategory = categoryRepository.existsById(categoryId);
+            if (!hasCategory) {
+                throw new ResourceNotFoundException("Category not found with id: " + categoryId);
+            }
         }
 
         Specification<Product> spec = Specification
