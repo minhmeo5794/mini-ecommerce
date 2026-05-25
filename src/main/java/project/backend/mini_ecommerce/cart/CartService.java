@@ -1,8 +1,6 @@
 package project.backend.mini_ecommerce.cart;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import project.backend.mini_ecommerce.cart.dto.CartResponse;
 import project.backend.mini_ecommerce.cart_item.CartItemMapper;
@@ -14,6 +12,7 @@ import project.backend.mini_ecommerce.user.User;
 import project.backend.mini_ecommerce.user.UserRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -25,7 +24,7 @@ public class CartService {
     private final CartMapper cartMapper;
     private final CartItemMapper cartItemMapper;
 
-    public CartResponse getMyCart(Pageable pageable) {
+    public CartResponse getMyCart() {
         Long currentUserId = currentUserService.getCurrentUserId();
         Cart cart = cartRepository.findByUserId(currentUserId).orElseGet(() -> {
             // Nếu chưa có Cart thì tạo Cart
@@ -39,7 +38,7 @@ public class CartService {
             return cartRepository.save(newCart);
         });
 
-        Page<CartItemResponse> cartItems = cartItemRepository.findByCartId(cart.getId(), pageable).map(cartItemMapper::toCartItemResponse);
+        List<CartItemResponse> cartItems = cartItemRepository.findByCartId(cart.getId()).stream().map(cartItemMapper::toCartItemResponse).toList();
 
         return cartMapper.toResponse(cart, cartItems);
     }
