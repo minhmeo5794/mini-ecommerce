@@ -28,7 +28,13 @@ public class CartController {
     }
 
     @PostMapping("/me/items")
-    public void addItemToCart(@RequestBody @Valid AddItemToCartRequest request, HttpServletRequest httpServletRequest) {
-        cartService.addItemToCart(request);
+    public ResponseEntity<ApiResponse<CartResponse>> addItemToCart(@RequestBody @Valid AddItemToCartRequest request, HttpServletRequest httpServletRequest) {
+
+        return ResponseEntity.ok().body(ApiResponse.success(
+                cartService.addItemToCart(request),
+                "Cart retrieved successfully",
+                HttpStatus.OK.value(),
+                httpServletRequest
+        ));
     }
 }
