@@ -1,7 +1,6 @@
 package project.backend.mini_ecommerce.product.dto;
 
 import jakarta.validation.constraints.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import project.backend.mini_ecommerce.common.enums.ProductStatus;
