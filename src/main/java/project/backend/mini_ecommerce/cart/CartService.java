@@ -2,6 +2,7 @@ package project.backend.mini_ecommerce.cart;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import project.backend.mini_ecommerce.cart.dto.AddItemToCartRequest;
 import project.backend.mini_ecommerce.cart.dto.CartResponse;
 import project.backend.mini_ecommerce.cart_item.CartItemMapper;
 import project.backend.mini_ecommerce.cart_item.CartItemRepository;
@@ -42,4 +43,9 @@ public class CartService {
 
         return cartMapper.toResponse(cart, cartItems);
     }
+
+    public void addItemToCart(AddItemToCartRequest request) {
+
+    }
+
 }

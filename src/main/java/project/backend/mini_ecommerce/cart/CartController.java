@@ -1,12 +1,12 @@
 package project.backend.mini_ecommerce.cart;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import project.backend.mini_ecommerce.cart.dto.AddItemToCartRequest;
 import project.backend.mini_ecommerce.cart.dto.CartResponse;
 import project.backend.mini_ecommerce.common.response.ApiResponse;
 
@@ -25,5 +25,10 @@ public class CartController {
                 HttpStatus.OK.value(),
                 httpServletRequest
         ));
+    }
+
+    @PostMapping("/me/items")
+    public void addItemToCart(@RequestBody @Valid AddItemToCartRequest request, HttpServletRequest httpServletRequest) {
+        cartService.addItemToCart(request);
     }
 }
