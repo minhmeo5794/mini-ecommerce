@@ -27,17 +27,7 @@ public class CartService {
 
     public CartResponse getMyCart() {
         Long currentUserId = currentUserService.getCurrentUserId();
-        Cart cart = cartRepository.findByUserId(currentUserId).orElseGet(() -> {
-            // Nếu chưa có Cart thì tạo Cart
-            User user = userRepository.findById(currentUserId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + currentUserId));
-
-            Cart newCart = Cart.builder()
-                    .user(user)
-                    .cartItems(new ArrayList<>())
-                    .build();
-
-            return cartRepository.save(newCart);
-        });
+        Cart cart = cartRepository.findByUserId(currentUserId).orElseGet(() -> createEmptyCart(currentUserId));
 
         List<CartItemResponse> cartItems = cartItemRepository.findByCartId(cart.getId()).stream().map(cartItemMapper::toCartItemResponse).toList();
 
@@ -48,4 +38,14 @@ public class CartService {
 
     }
 
+    private Cart createEmptyCart(Long currentUserId) {
+        User user = userRepository.findById(currentUserId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + currentUserId));
+
+        Cart newCart = Cart.builder()
+                .user(user)
+                .cartItems(new ArrayList<>())
+                .build();
+
+        return cartRepository.save(newCart);
+    }
 }
