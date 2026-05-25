@@ -2,6 +2,7 @@ package project.backend.mini_ecommerce.cart;
 
 import org.springframework.stereotype.Component;
 import project.backend.mini_ecommerce.cart.dto.CartResponse;
+import project.backend.mini_ecommerce.cart_item.CartItem;
 import project.backend.mini_ecommerce.cart_item.dto.CartItemResponse;
 
 import java.math.BigDecimal;
@@ -16,7 +17,10 @@ public class CartMapper {
                         .multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        Integer totalItems = cart.getCartItems().size();
+        Integer totalItems = cart.getCartItems()
+                .stream()
+                .mapToInt(CartItem::getQuantity)
+                .sum();
 
         return CartResponse.builder()
                 .id(cart.getId())
