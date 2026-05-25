@@ -13,5 +13,6 @@ public class CartResponse {
     private final Long id;
     private final Long userId;
     private final BigDecimal totalAmount;
+    private final Integer totalItems;
     private final PageResponse<CartItemResponse> cartItems;
 }
